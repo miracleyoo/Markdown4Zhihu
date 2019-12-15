@@ -61,7 +61,11 @@ def reduce_image_size():
         print(image_path)
         if os.path.getsize(image_path)>5e5:
             img = Image.open(str(image_path))
-            img.save(str(image_folder_new_path/image_path.name), optimize=True,quality=75)
+            if(img.size[0]>1920):
+                img=img.resize((1920,int(1920*img.size[1]/img.size[0])),Image.ANTIALIAS)
+            elif(img.size[1]>1080):
+                img=img.resize((int(1080*img.size[0]/img.size[1]),1080),Image.ANTIALIAS)
+            img.save(str(image_folder_new_path/image_path.name), optimize=True,quality=85)
         else:
             copyfile(image_path, str(image_folder_new_path/image_path.name))
     image_folder_path = image_folder_new_path
