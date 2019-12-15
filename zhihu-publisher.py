@@ -11,7 +11,7 @@ import chardet
 
 from PIL import Image
 from pathlib2 import Path
-
+from shutil import copyfile
 ###############################################################################################################
 ## Please change the GITHUB_REPO_PREFIX value according to your own GitHub user name and relative directory. ##
 ###############################################################################################################
@@ -62,6 +62,8 @@ def reduce_image_size():
         if os.path.getsize(image_path)>5e5:
             img = Image.open(str(image_path))
             img.save(str(image_folder_new_path/image_path.name), optimize=True,quality=85)
+        else:
+            copyfile(image_path, str(image_folder_new_path/image_path.name))
     image_folder_path = image_folder_new_path
 
 def git_ops():
