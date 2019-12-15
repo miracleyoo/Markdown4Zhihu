@@ -7,7 +7,7 @@
 
 ## 使用方法
 
-这里我们假设您的文件名为“一个测试文档.md”，并将其和同名图片文件夹放到`Data`目录下，接着打开terminal(Linux/MacOS)或Git Bash(Windows)(或其他任何支持Git命令的终端)，输入以下命令：
+这里我们假设您的文件名为`一个测试文档.md`，并将其和同名图片文件夹放到`Data`目录下，接着打开terminal(Linux/MacOS)或Git Bash(Windows)(或其他任何支持Git命令的终端)，输入以下命令：
 
 `python zhihu-publisher.py --input="./Data/一个测试文档.md"`
 
