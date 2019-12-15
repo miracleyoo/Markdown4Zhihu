@@ -57,11 +57,11 @@ def reduce_image_size():
     if not os.path.exists(str(image_folder_new_path)): 
         os.mkdir(str(image_folder_new_path))
     print(list(image_folder_path.iterdir()))
-    for image_path in [image_folder_path.parent/i for i in list(image_folder_path.iterdir()) if not (image_folder_path.parent/i).name.startswith(".") and (image_folder_path.parent/i).is_file()]:
+    for image_path in [i for i in list(image_folder_path.iterdir()) if not i.name.startswith(".") and i.is_file()]:
         print(image_path)
         if os.path.getsize(image_path)>5e5:
-            img = Image.open(image_path)
-            img.save(image_folder_new_path/image_path.name, optimize=True,quality=85)
+            img = Image.open(str(image_path))
+            img.save(str(image_folder_new_path/image_path.name), optimize=True,quality=85)
     image_folder_path = image_folder_new_path
 
 def git_ops():
