@@ -38,7 +38,7 @@ def image_ops(_lines):
     return re.sub(r"!\[(.*?)\]\((.*?)\)","![\\1]("+GITHUB_REPO_PREFIX+"\\2"+")", _lines)
 
 def table_ops(_lines):
-    return re.sub(r"\|\n",r"\|\n\n", _lines)
+    return re.sub("\|\n",r"|\n\n", _lines)
 
 def git_ops():
     subprocess.run(["git","add","-A"])

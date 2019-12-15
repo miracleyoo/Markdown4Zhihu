@@ -33,15 +33,15 @@ struct C10_API Allocator {
 
 ## 这里是一个表格和基础的公式
 
-| Item1 | Item2   | Item3   | Item4   \|
+| Item1 | Item2   | Item3   | Item4   |
 
-| ----- | ------- | ------- | ------- \|
+| ----- | ------- | ------- | ------- |
 
-| Row1  | Content | Content | Content \|
+| Row1  | Content | Content | Content |
 
-| Row2  | Content | Content | Content \|
+| Row2  | Content | Content | Content |
 
-| Row3  | Content | Content | Content \|
+| Row3  | Content | Content | Content |
 
 
 $$
