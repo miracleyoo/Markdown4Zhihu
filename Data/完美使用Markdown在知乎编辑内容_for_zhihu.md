@@ -6,13 +6,13 @@
 
 ### Typora中原文件
 
-<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214174243537.png") alt="image-20191214174243537" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214174243537.png" alt="image-20191214174243537" style="zoom:50%;" />
 
 这份测试文件虽然短，但是基本包含了常见几种要素：标题、正文、图片、表格、代码、公式。下面让我们看看知乎支持的几种上传方式的效果：
 
 ### 1. 直接复制Typora中的内容到知乎编辑器
 
-<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214174118623.png") alt="image-20191214174118623" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214174118623.png" alt="image-20191214174118623" style="zoom:50%;" />
 
 可以看到，标题和正文区分开了，不过所有的标题都变成了一级标题。另外本地的图片无法导入，只剩下一个展占位符。表格全乱，公式直接消失了。但代码的高亮仍是C++，正确。
 
@@ -20,13 +20,13 @@
 
 你可以在编辑器的这个位置导入文件：
 
-<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214174529632.png") alt="image-20191214174529632" style="zoom:33%;" />
+<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214174529632.png" alt="image-20191214174529632" style="zoom:33%;" />
 
-<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214174506716.png") alt="image-20191214174506716" style="zoom:33%;" />
+<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214174506716.png" alt="image-20191214174506716" style="zoom:33%;" />
 
 导入刚才我们看到的测试文件原档的效果是这样的：
 
-<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214174704023.png") alt="image-20191214174704023" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214174704023.png" alt="image-20191214174704023" style="zoom:50%;" />
 
 同前，标题和正文区分开了，不过所有的标题都变成了一级标题。另外本地的图片无法导入，只剩下一个占位符。表格全乱，公式没有消失，但也并没有被渲染。代码的高亮仍是C++，正确。
 
@@ -34,13 +34,13 @@
 
 上面的两种最直观的方法的一大问题就是图片导入不进去。而对于一些长篇的科技文章，图片既多又重要，手动一个个添加容易错而且浪费科研人员的时间和热情。当然我知道导入Markdown时并没有顺带把图片本身导入进去，但我仍觉得这是知乎团队应该做的工作，而且是相当基本的工作。好吧，既然现在不可行，那么导出成Word再导入该不会有这个问题了吧，我们来看看：
 
-<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214175626414.png") alt="image-20191214175626414" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214175626414.png" alt="image-20191214175626414" style="zoom:50%;" />
 
 好家伙，图片导入进去了，表格直接炸飞天了，而且更可气的是代码的高亮没了，格式也出现了问题。其他的嘛，不看不得了，一看发现公式似乎直接没了，中间还莫名其妙多了一堆空行。当然，标题等级的问题还是没解决。
 
 那是Typora导出Word导出的不好吗？我打开了导出的Word文件：
 
-<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214180048117.png") alt="image-20191214180048117" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214180048117.png" alt="image-20191214180048117" style="zoom:50%;" />
 
 公式存在，高亮正确，标题等级正确，表格正确，没有奇怪的空行。虽然和Markdown渲染的结果相比也并不好看说实话，但至少它是对的，而知乎编辑器错的五花八门。
 
@@ -52,7 +52,7 @@
 
 这里做的工作主要是将所有来源的图片都自动保存至同名文件夹下，以相对路径储存。使用其他Markdown编辑器的小伙伴也可以对照调整。这么做的目的主要是为了方便后面对图片的批量上传与转换。
 
-<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214221536561.png") alt="image-20191214221536561" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214221536561.png" alt="image-20191214221536561" style="zoom:50%;" />
 
 
 
@@ -64,13 +64,13 @@
 
 最方便的解决办法即为利用好GitHub的资源了。建立一个Public的GitHub仓库，这里我命名作**[Markdown4Zhihu](https://github.com/miracleyoo/Markdown4Zhihu)**，注意一定要为Public，否则知乎无法访问这些图片。
 
-<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214221339326.png") alt="image-20191214221339326" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214221339326.png" alt="image-20191214221339326" style="zoom:50%;" />
 
 当然，如果你觉得麻烦，也可以直接folk我建好的仓库，一会儿我们要提到的“一键Markdown知乎适配脚本”也会在这个仓库里。你只需要将你的文件和相应的图片文件夹放到这个`Data`子目录下，即可调用脚本一键转换，并将涉及到的图片自动推到你相应的GitHub仓库中。
 
 
 
-<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214213407292.png") alt="image-20191214213407292" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/完美使用Markdown在知乎编辑内容/image-20191214213407292.png" alt="image-20191214213407292" style="zoom:50%;" />
 
 
 
