@@ -8,6 +8,7 @@ from pathlib2 import Path
 import argparse
 import codecs
 import subprocess
+import chardet
 
 ###############################################################################################################
 ## Please change the GITHUB_REPO_PREFIX value according to your own GitHub user name and relative directory. ##
@@ -16,11 +17,15 @@ import subprocess
 GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/miracleyoo/Markdown-Repo/master/Data/"
 
 def process_for_zhihu():
-    with codecs.open(str(args.input),"r","utf8") as f:
+    with open(str(args.input), 'rb') as f:
+        s = f.read()
+        chatest = chardet.detect(s)
+    with open(str(args.input),"r",encoding=chatest["encoding"]) as f:
         lines = f.read()
         lines = formula_ops(lines)
         lines = image_ops(lines)
-        with open(args.input.parent/(args.input.stem+"_for_zhihu"), "w+") as fw:
+        lines = table_ops(lines)
+        with open(args.input.parent/(args.input.stem+"_for_zhihu.md"), "w+", encoding=chatest["encoding"]) as fw:
             fw.write(lines)
         git_ops()
 
@@ -31,6 +36,9 @@ def formula_ops(_lines):
 
 def image_ops(_lines):
     return re.sub(r"!\[(.*?)\]\((.*?)\)","![\\1]("+GITHUB_REPO_PREFIX+"\\2"+")", _lines)
+
+def table_ops(_lines):
+    return re.sub(r"|\n",r"|\n\n", _lines)
 
 def git_ops():
     subprocess.run(["git","add","-A"])
