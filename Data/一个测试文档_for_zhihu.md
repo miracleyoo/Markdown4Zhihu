@@ -44,9 +44,10 @@ struct C10_API Allocator {
 | Row3  | Content | Content | Content \|
 
 
-
-<img src="https://www.zhihu.com/equation?tex=Sum=\sum_{i=0}^{n}{\sqrt{x_i^2+y_i^2}}" alt="Sum=\sum_{i=0}^{n}{\sqrt{x_i^2+y_i^2}}" class="ee_img tr_noresize" eeimg="1">
-
+$$
+Sum=\sum_{i=0}^{n}{\sqrt{x_i^2+y_i^2}}\\
+Sum2=\sum_{i=2}^{n}{\sqrt{x_i^2+y_i^2}}
+$$
 
 
 
