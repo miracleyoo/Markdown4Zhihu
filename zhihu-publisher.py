@@ -56,6 +56,7 @@ def reduce_image_size():
     image_folder_new_path = args.input.parent/(args.input.stem+"_for_zhihu")
     if not os.path.exists(str(image_folder_new_path)): 
         os.mkdir(str(image_folder_new_path))
+    print(list(image_folder_path.iterdir()))
     for image_path in [image_folder_path.parent/i for i in list(image_folder_path.iterdir()) if not (image_folder_path.parent/i).name.startswith(".") and (image_folder_path.parent/i).is_file()]:
         print(image_path)
         if os.path.getsize(image_path)>5e5:
