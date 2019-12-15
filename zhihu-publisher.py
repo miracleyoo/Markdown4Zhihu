@@ -36,7 +36,7 @@ def formula_ops(_lines):
 
 def image_ops(_lines):
     _lines = re.sub(r"!\[(.*?)\]\((.*?)\)","![\\1]("+GITHUB_REPO_PREFIX+"\\2"+")", _lines)
-    _lines = re.sub(r'<img src="(.*?)"','<img src="'+GITHUB_REPO_PREFIX+'\\1'+')', _lines)
+    _lines = re.sub(r'<img src="(.*?)"','<img src="'+GITHUB_REPO_PREFIX+'\\1'+'")', _lines)
     return _lines
 
 def table_ops(_lines):
