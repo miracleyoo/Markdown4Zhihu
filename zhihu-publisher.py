@@ -40,12 +40,12 @@ def formula_ops(_lines):
     return _lines
 
 def image_ops(_lines):
-    # if args.compress:
-    #     _lines = re.sub(r"\!\[(.*?)\]\((.*?)\)","![\\1]("+GITHUB_REPO_PREFIX+"\\2"+")", _lines)
-    #     _lines = re.sub(r'<img src="(.*?)"','<img src="'+GITHUB_REPO_PREFIX+'\\1'+'"', _lines)
-    # else:
-    _lines = re.sub(r"\!\[(.*?)\]\((.*?)\)",lambda m: "!["+m.group(1)+"]("+GITHUB_REPO_PREFIX+str(image_folder_path.name)+"/"+Path(m.group(2)).name+")", _lines)
-    _lines = re.sub(r'<img src="(.*?)"',lambda m:'<img src="'+GITHUB_REPO_PREFIX+str(image_folder_path.name)+"/"+Path(m.group(1)).name+'"', _lines)
+    if args.compress:
+        _lines = re.sub(r"\!\[(.*?)\]\((.*?)\)",lambda m: "!["+m.group(1)+"]("+GITHUB_REPO_PREFIX+str(image_folder_path.stem)+".jpg"+"/"+Path(m.group(2)).name+")", _lines)
+        _lines = re.sub(r'<img src="(.*?)"',lambda m:'<img src="'+GITHUB_REPO_PREFIX+str(image_folder_path.stem)+".jpg"+"/"+Path(m.group(1)).name+'"', _lines)
+    else:
+        _lines = re.sub(r"\!\[(.*?)\]\((.*?)\)",lambda m: "!["+m.group(1)+"]("+GITHUB_REPO_PREFIX+str(image_folder_path.name)+"/"+Path(m.group(2)).name+")", _lines)
+        _lines = re.sub(r'<img src="(.*?)"',lambda m:'<img src="'+GITHUB_REPO_PREFIX+str(image_folder_path.name)+"/"+Path(m.group(1)).name+'"', _lines)
     return _lines
 
 def table_ops(_lines):
@@ -58,15 +58,15 @@ def reduce_image_size():
         os.mkdir(str(image_folder_new_path))
     for image_path in [i for i in list(image_folder_path.iterdir()) if not i.name.startswith(".") and i.is_file()]:
         print(image_path)
+        img = Image.open(str(image_path))
         if os.path.getsize(image_path)>5e5:
-            img = Image.open(str(image_path))
             if(img.size[0]>img.size[1] and img.size[0]>1920):
                 img=img.resize((1920,int(1920*img.size[1]/img.size[0])),Image.ANTIALIAS)
             elif(img.size[1]>img.size[0] and img.size[1]>1080):
                 img=img.resize((int(1080*img.size[0]/img.size[1]),1080),Image.ANTIALIAS)
-            img.convert('RGB').save(str(image_folder_new_path/(image_path.stem+".jpg")), optimize=True,quality=85)
-        else:
-            copyfile(image_path, str(image_folder_new_path/image_path.name))
+        img.convert('RGB').save(str(image_folder_new_path/(image_path.stem+".jpg")), optimize=True,quality=85)
+        # else:
+        #     copyfile(image_path, str(image_folder_new_path/image_path.name))
     image_folder_path = image_folder_new_path
 
 def git_ops():
