@@ -22,11 +22,11 @@
 
 ## 点击右侧“编辑”按钮
 
-<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/如何无换行符复制PDF（论文）中的多行内容_for_zhihu/image-20191214171337874.jpg" alt="image-20191214171337874" style="zoom:40%;" />
+<img src="https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/如何无换行符复制PDF（论文）中的多行内容_for_zhihu/image-20191214171337874.png" alt="image-20191214171337874" style="zoom:40%;" />
 
 如果这里没有显示，你可以选择在视图中调出边栏或点击进入“工具”后选择编辑PDF。
 
-![image-20191214171541060](https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/如何无换行符复制PDF（论文）中的多行内容_for_zhihu/image-20191214171541060.jpg)
+![image-20191214171541060](https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/如何无换行符复制PDF（论文）中的多行内容_for_zhihu/image-20191214171541060.png)
 
 我这里使用的是当前最新版的Acrobat，如果您的版本较低，请自己找到编辑PDF选项。
 
