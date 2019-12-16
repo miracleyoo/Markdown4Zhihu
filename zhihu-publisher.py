@@ -13,13 +13,15 @@ import functools
 from PIL import Image
 from pathlib2 import Path
 from shutil import copyfile
+
 ###############################################################################################################
 ## Please change the GITHUB_REPO_PREFIX value according to your own GitHub user name and relative directory. ##
 ###############################################################################################################
 # GITHUB_REPO_PREFIX = Path("https://raw.githubusercontent.com/`YourUserName`/`YourRepoName`/master/Data/")
-GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/"
-COMPRESS_THRESHOLD = 5e5
+GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/" # Your image folder remote link 
+COMPRESS_THRESHOLD = 5e5 # The threshold of compression
 
+# The main function for this program
 def process_for_zhihu():
     if args.compress:
         reduce_image_size()
@@ -36,11 +38,13 @@ def process_for_zhihu():
             fw.write(lines)
         git_ops()
 
+# Deal with the formula and change them into Zhihu original format
 def formula_ops(_lines):
     _lines = re.sub('((.*?)\$\$)(\s*)?([\s\S]*?)(\$\$)\n', '\n<img src="https://www.zhihu.com/equation?tex=\\4" alt="\\4" class="ee_img tr_noresize" eeimg="1">\n', _lines)
     _lines = re.sub('(\$)(?!\$)(.*?)(\$)', ' <img src="https://www.zhihu.com/equation?tex=\\2" alt="\\2" class="ee_img tr_noresize" eeimg="1"> ', _lines)
     return _lines
 
+# The support function for image_ops. It will take in a matched object and make sure they are competible
 def rename_image_ref(m, original=True):
     global image_folder_path
     if os.path.getsize(image_folder_path.parent/m.group(1+int(original)))>COMPRESS_THRESHOLD:
@@ -58,6 +62,8 @@ def rename_image_ref(m, original=True):
     else:
         return '<img src="'+GITHUB_REPO_PREFIX+str(image_folder_path.name)+"/" +image_ref_name +'"'
 
+# Search for the image links which appear in the markdown file. It can handle two types: ![]() and <img src="LINK" alt="CAPTION" style="zoom:40%;" />.
+# The second type is mainly for those images which have been zoomed.
 def image_ops(_lines):
     # if args.compress:
     #     _lines = re.sub(r"\!\[(.*?)\]\((.*?)\)",lambda m: "!["+m.group(1)+"]("+GITHUB_REPO_PREFIX+str(image_folder_path.name)+"/"+Path(m.group(2)).stem+".jpg)", _lines)
@@ -67,9 +73,11 @@ def image_ops(_lines):
     _lines = re.sub(r'<img src="(.*?)"',functools.partial(rename_image_ref, original=False), _lines)
     return _lines
 
+# Deal with table. Just add a extra \n to each original table line
 def table_ops(_lines):
     return re.sub("\|\n",r"|\n\n", _lines)
 
+# Reduce image size and compress. It the image is bigger than threshold, then resize, compress, and change it to jpg.
 def reduce_image_size():
     global image_folder_path
     image_folder_new_path = args.input.parent/(args.input.stem+"_for_zhihu")
@@ -77,7 +85,7 @@ def reduce_image_size():
         os.mkdir(str(image_folder_new_path))
     for image_path in [i for i in list(image_folder_path.iterdir()) if not i.name.startswith(".") and i.is_file()]:
         print(image_path)
-        if os.path.getsize(image_path)>5e5:
+        if os.path.getsize(image_path)>COMPRESS_THRESHOLD:
             img = Image.open(str(image_path))
             if(img.size[0]>img.size[1] and img.size[0]>1920):
                 img=img.resize((1920,int(1920*img.size[1]/img.size[0])),Image.ANTIALIAS)
@@ -88,6 +96,7 @@ def reduce_image_size():
             copyfile(image_path, str(image_folder_new_path/image_path.name))
     image_folder_path = image_folder_new_path
 
+# Push your new change to github remote end
 def git_ops():
     subprocess.run(["git","add","-A"])
     subprocess.run(["git","commit","-m", "update file "+args.input.stem])
