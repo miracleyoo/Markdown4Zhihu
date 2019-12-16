@@ -64,8 +64,7 @@ def reduce_image_size():
                 img=img.resize((1920,int(1920*img.size[1]/img.size[0])),Image.ANTIALIAS)
             elif(img.size[1]>img.size[0] and img.size[1]>1080):
                 img=img.resize((int(1080*img.size[0]/img.size[1]),1080),Image.ANTIALIAS)
-            
-            img.convert('RGB').save(str(image_folder_new_path/(image_path.stem+".jpg")), optimize=True,quality=75)
+            img.convert('RGB').save(str(image_folder_new_path/(image_path.stem+".jpg")), optimize=True,quality=85)
         else:
             copyfile(image_path, str(image_folder_new_path/image_path.name))
     image_folder_path = image_folder_new_path
