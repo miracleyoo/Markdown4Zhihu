@@ -31,8 +31,8 @@ def process_for_zhihu():
     print(chatest)
     with open(str(args.input),"r",encoding=chatest["encoding"]) as f:
         lines = f.read()
-        lines = formula_ops(lines)
         lines = image_ops(lines)
+        lines = formula_ops(lines)
         lines = table_ops(lines)
         with open(args.input.parent/(args.input.stem+"_for_zhihu.md"), "w+", encoding=chatest["encoding"]) as fw:
             fw.write(lines)
@@ -47,6 +47,9 @@ def formula_ops(_lines):
 # The support function for image_ops. It will take in a matched object and make sure they are competible
 def rename_image_ref(m, original=True):
     global image_folder_path
+    if not Path(m.group(1)).is_file():
+        return m.group(0)
+    print(m.group(0))
     if os.path.getsize(image_folder_path.parent/m.group(1+int(original)))>COMPRESS_THRESHOLD:
         if original:
             image_ref_name = Path(m.group(2)).stem+".jpg"
