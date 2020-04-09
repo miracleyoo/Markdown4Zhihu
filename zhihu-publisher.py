@@ -17,8 +17,9 @@ from shutil import copyfile
 ###############################################################################################################
 ## Please change the GITHUB_REPO_PREFIX value according to your own GitHub user name and relative directory. ##
 ###############################################################################################################
-# GITHUB_REPO_PREFIX = Path("https://raw.githubusercontent.com/`YourUserName`/`YourRepoName`/master/Data/")
-GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/" # Your image folder remote link 
+# GITHUB_REPO_PREFIX = Path("https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/")
+# Your image folder remote link
+GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/huangrt01/Markdown4Zhihu/master/Data/"
 COMPRESS_THRESHOLD = 5e5 # The threshold of compression
 
 # The main function for this program
@@ -47,7 +48,7 @@ def formula_ops(_lines):
 # The support function for image_ops. It will take in a matched object and make sure they are competible
 def rename_image_ref(m, original=True):
     global image_folder_path
-    if not Path(m.group(1)).is_file():
+    if not Path(image_folder_path.parent/m.group(2)).is_file():
         return m.group(0)
     if os.path.getsize(image_folder_path.parent/m.group(1+int(original)))>COMPRESS_THRESHOLD:
         if original:
