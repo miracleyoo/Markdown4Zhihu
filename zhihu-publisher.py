@@ -26,16 +26,18 @@ COMPRESS_THRESHOLD = 5e5 # The threshold of compression
 def process_for_zhihu():
     if args.compress:
         reduce_image_size()
-    with open(str(args.input), 'rb') as f:
-        s = f.read()
-        chatest = chardet.detect(s)
-    print(chatest)
-    with open(str(args.input),"r",encoding=chatest["encoding"]) as f:
+    if args.encoding is None:
+        with open(str(args.input), 'rb') as f:
+            s = f.read()
+            chatest = chardet.detect(s)
+            args.encoding = chatest['encoding']
+        print(chatest)
+    with open(str(args.input),"r",encoding=args.encoding) as f:
         lines = f.read()
         lines = image_ops(lines)
         lines = formula_ops(lines)
         lines = table_ops(lines)
-        with open(args.input.parent/(args.input.stem+"_for_zhihu.md"), "w+", encoding=chatest["encoding"]) as fw:
+        with open(args.input.parent/(args.input.stem+"_for_zhihu.md"), "w+", encoding=args.encoding) as fw:
             fw.write(lines)
         git_ops()
 
@@ -107,15 +109,9 @@ def git_ops():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('Please input the file path you want to transfer using --input=""')
-
-    # RGB arguments
-    parser.add_argument(
-        '--compress', action='store_true', help='Compress the image which is too large')
-
-    parser.add_argument(
-        '--input',
-        type=str,
-        help='Path to the file you want to transfer.')
+    parser.add_argument('--compress', action='store_true', help='Compress the image which is too large')
+    parser.add_argument('-i', '--input', type=str, help='Path to the file you want to transfer.')
+    parser.add_argument('-e', '--encoding', type=str, help='Encoding of the input file')
 
     args = parser.parse_args()
     if args.input is None:
