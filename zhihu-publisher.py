@@ -63,7 +63,7 @@ def rename_image_ref(m, original=True):
     except OSError:
         return m.group(0)
 
-    if op.getsize(full_img_path)>COMPRESS_THRESHOLD:
+    if op.getsize(full_img_path)>COMPRESS_THRESHOLD and args.compress and args.stem_folder:
         image_ref_name = img_stem+".jpg"
     else:
         image_ref_name = Path(ori_path).name
