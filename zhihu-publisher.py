@@ -36,7 +36,7 @@ def process_for_zhihu():
         lines = image_ops(lines)
         lines = formula_ops(lines)
         lines = table_ops(lines)
-        with open(args.input.parent/(args.input.stem+"_for_zhihu.md"), "w+", encoding=args.encoding) as fw:
+        with open(op.join(args.current_script_data_path, args.input.stem+"_for_zhihu.md"), "w+", encoding=args.encoding) as fw:
             fw.write(lines)
         cleanup_image_folder()
         git_ops()
@@ -141,7 +141,9 @@ if __name__ == "__main__":
     else:
         args.input = Path(args.input)
         args.file_parent = str(args.input.parent)
-        args.image_folder_path = op.join(args.file_parent, args.input.stem)
+
+        args.current_script_data_path = str(Path(__file__).absolute().parent / 'Data')
+        args.image_folder_path = op.join(args.current_script_data_path, args.input.stem)
         if not op.exists(args.image_folder_path):
             os.makedirs(args.image_folder_path)
                      

@@ -11,7 +11,7 @@
 
 2. 然后，打开`zhihu-publisher.py`文件，在文件开头有这么一句：`GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/"`请修改`miracleyoo`为您自己的GitHub用户名，如果仓库名字也有变化，请做出相应微调。
 
-3. 这里我们假设您的文件名为`一个测试文档.md`，并将其和同名图片文件夹放到`Data`目录下，接着打开terminal(Linux/MacOS)或Git Bash(Windows)(或其他任何支持Git命令的终端)，输入以下命令：
+3. 这里我们假设您的文件名为`一个测试文档.md`，并将其和同名图片文件夹放到`Data`目录下（非必须），接着打开terminal(Linux/MacOS)或Git Bash(Windows)(或其他任何支持Git命令的终端)，输入以下命令：
 
 `python zhihu-publisher.py --input="./Data/一个测试文档.md"`
 
