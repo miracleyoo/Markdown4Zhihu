@@ -67,10 +67,11 @@ def rename_image_ref(m, original=True):
         image_ref_name = img_stem+".jpg"
     else:
         image_ref_name = Path(ori_path).name
+    
     if original:
-        return "!["+m.group(1)+"]("+GITHUB_REPO_PREFIX+Path(full_img_path).parts[-2]+"/"+image_ref_name+")"
+        return "!["+m.group(1)+"]("+GITHUB_REPO_PREFIX+args.input.stem+"/"+image_ref_name+")"
     else:
-        return '<img src="'+GITHUB_REPO_PREFIX+Path(full_img_path).parts[-2]+"/" +image_ref_name +'"'
+        return '<img src="'+GITHUB_REPO_PREFIX+args.input.stem+"/" +image_ref_name +'"'
 
 
 # Search for the image links which appear in the markdown file. It can handle two types: ![]() and <img src="LINK" alt="CAPTION" style="zoom:40%;" />.

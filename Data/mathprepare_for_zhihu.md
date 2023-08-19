@@ -255,4 +255,4 @@ $ <img src="https://www.zhihu.com/equation?tex=A_{m×n}" alt="A_{m×n}" class="e
 
 本地图片测试：
 
-![test](https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/Downloads/test_kokomi.jpg)
+![test](https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/mathprepare/test_kokomi.jpg)
