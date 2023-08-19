@@ -5,7 +5,6 @@
 
 import os, re
 import argparse
-import codecs
 import subprocess
 import chardet
 import functools
@@ -35,8 +34,6 @@ def process_for_zhihu():
     with open(str(args.input),"r",encoding=args.encoding) as f:
         lines = f.read()
         lines = image_ops(lines)
-        # if args.compress and args.stem_folder:
-        #     reduce_image_size()
         lines = formula_ops(lines)
         lines = table_ops(lines)
         with open(args.input.parent/(args.input.stem+"_for_zhihu.md"), "w+", encoding=args.encoding) as fw:
@@ -104,10 +101,6 @@ def cleanup_image_folder():
 # Search for the image links which appear in the markdown file. It can handle two types: ![]() and <img src="LINK" alt="CAPTION" style="zoom:40%;" />.
 # The second type is mainly for those images which have been zoomed.
 def image_ops(_lines):
-    # if args.compress:
-    #     _lines = re.sub(r"\!\[(.*?)\]\((.*?)\)",lambda m: "!["+m.group(1)+"]("+GITHUB_REPO_PREFIX+str(image_folder_path.name)+"/"+Path(m.group(2)).stem+".jpg)", _lines)
-    #     _lines = re.sub(r'<img src="(.*?)"',lambda m:'<img src="'+GITHUB_REPO_PREFIX+str(image_folder_path.name)+"/"+Path(m.group(1)).stem+'.jpg"', _lines)
-    # else:
     _lines = re.sub(r"\!\[(.*?)\]\((.*?)\)",functools.partial(rename_image_ref, original=True), _lines)
     _lines = re.sub(r'<img src="(.*?)"',functools.partial(rename_image_ref, original=False), _lines)
     return _lines
@@ -128,25 +121,6 @@ def reduce_single_image_size(image_path):
             img=img.resize((int(1080*img.size[0]/img.size[1]),1080),Image.ANTIALIAS)
         img.convert('RGB').save(output_path, optimize=True,quality=85)
     return output_path
-
-# Reduce image size and compress. It the image is bigger than threshold, then resize, compress, and change it to jpg.
-def reduce_image_size():
-    if op.exists(args.image_folder_path):
-        image_folder_new_path = args.input.parent/(args.input.stem+"_for_zhihu")
-        if not op.exists(str(image_folder_new_path)): 
-            os.mkdir(str(image_folder_new_path))
-        for image_path in [i for i in list(args.image_folder_path.iterdir()) if not i.name.startswith(".") and i.is_file()]:
-            print(image_path)
-            if op.getsize(image_path)>COMPRESS_THRESHOLD:
-                img = Image.open(str(image_path))
-                if(img.size[0]>img.size[1] and img.size[0]>1920):
-                    img=img.resize((1920,int(1920*img.size[1]/img.size[0])),Image.ANTIALIAS)
-                elif(img.size[1]>img.size[0] and img.size[1]>1080):
-                    img=img.resize((int(1080*img.size[0]/img.size[1]),1080),Image.ANTIALIAS)
-                img.convert('RGB').save(str(image_folder_new_path/(image_path.stem+".jpg")), optimize=True,quality=85)
-            else:
-                copyfile(image_path, str(image_folder_new_path/image_path.name))
-    args.image_folder_path = image_folder_new_path
 
 # Push your new change to github remote end
 def git_ops():
@@ -169,16 +143,7 @@ if __name__ == "__main__":
         args.file_parent = str(args.input.parent)
         args.image_folder_path = op.join(args.file_parent, args.input.stem)
         if not op.exists(args.image_folder_path):
-            args.stem_folder=False
             os.makedirs(args.image_folder_path)
-        else:
-            args.stem_folder=True
-
-        # if op.exists(op.join(args.image_folder_path, args.input.stem)):
-        #     args.image_folder_path = op.join(args.image_folder_path, args.input.stem)
-        #     args.stem_folder=True
-        # else:
-        #     args.stem_folder=False
                      
         print(args.image_folder_path)
         process_for_zhihu()
