@@ -9,6 +9,7 @@ import codecs
 import subprocess
 import chardet
 import functools
+import os.path as op
 
 from PIL import Image
 from pathlib2 import Path
@@ -24,7 +25,7 @@ COMPRESS_THRESHOLD = 5e5 # The threshold of compression
 
 # The main function for this program
 def process_for_zhihu():
-    if args.compress:
+    if args.compress and args.stem_folder:
         reduce_image_size()
     if args.encoding is None:
         with open(str(args.input), 'rb') as f:
@@ -49,23 +50,25 @@ def formula_ops(_lines):
 
 # The support function for image_ops. It will take in a matched object and make sure they are competible
 def rename_image_ref(m, original=True):
-    global image_folder_path
-    if not (Path(image_folder_path.parent/m.group(1)).is_file() or Path(image_folder_path.parent/m.group(2)).is_file()):
+    # global image_folder_path
+    ori_path = m.group(2) if original else m.group(1)
+    try:
+        full_img_path = op.join(args.image_folder_path, ori_path)
+        img_stem = Path(full_img_path).stem
+        if not op.exists(full_img_path):
+            return m.group(0)
+    except OSError:
         return m.group(0)
-    if os.path.getsize(image_folder_path.parent/m.group(1+int(original)))>COMPRESS_THRESHOLD:
-        if original:
-            image_ref_name = Path(m.group(2)).stem+".jpg"
-        else:
-            image_ref_name = Path(m.group(1)).stem+".jpg"
+
+    if op.getsize(full_img_path)>COMPRESS_THRESHOLD:
+        image_ref_name = img_stem+".jpg"
     else:
-        if original:
-            image_ref_name = Path(m.group(2)).name
-        else:
-            image_ref_name = Path(m.group(1)).name
+        image_ref_name = Path(ori_path).name
     if original:
-        return "!["+m.group(1)+"]("+GITHUB_REPO_PREFIX+str(image_folder_path.name)+"/"+image_ref_name+")"
+        return "!["+m.group(1)+"]("+GITHUB_REPO_PREFIX+Path(full_img_path).parts[-2]+"/"+image_ref_name+")"
     else:
-        return '<img src="'+GITHUB_REPO_PREFIX+str(image_folder_path.name)+"/" +image_ref_name +'"'
+        return '<img src="'+GITHUB_REPO_PREFIX+Path(full_img_path).parts[-2]+"/" +image_ref_name +'"'
+
 
 # Search for the image links which appear in the markdown file. It can handle two types: ![]() and <img src="LINK" alt="CAPTION" style="zoom:40%;" />.
 # The second type is mainly for those images which have been zoomed.
@@ -84,22 +87,22 @@ def table_ops(_lines):
 
 # Reduce image size and compress. It the image is bigger than threshold, then resize, compress, and change it to jpg.
 def reduce_image_size():
-    global image_folder_path
-    image_folder_new_path = args.input.parent/(args.input.stem+"_for_zhihu")
-    if not os.path.exists(str(image_folder_new_path)): 
-        os.mkdir(str(image_folder_new_path))
-    for image_path in [i for i in list(image_folder_path.iterdir()) if not i.name.startswith(".") and i.is_file()]:
-        print(image_path)
-        if os.path.getsize(image_path)>COMPRESS_THRESHOLD:
-            img = Image.open(str(image_path))
-            if(img.size[0]>img.size[1] and img.size[0]>1920):
-                img=img.resize((1920,int(1920*img.size[1]/img.size[0])),Image.ANTIALIAS)
-            elif(img.size[1]>img.size[0] and img.size[1]>1080):
-                img=img.resize((int(1080*img.size[0]/img.size[1]),1080),Image.ANTIALIAS)
-            img.convert('RGB').save(str(image_folder_new_path/(image_path.stem+".jpg")), optimize=True,quality=85)
-        else:
-            copyfile(image_path, str(image_folder_new_path/image_path.name))
-    image_folder_path = image_folder_new_path
+    if op.exists(args.image_folder_path):
+        image_folder_new_path = args.input.parent/(args.input.stem+"_for_zhihu")
+        if not op.exists(str(image_folder_new_path)): 
+            os.mkdir(str(image_folder_new_path))
+        for image_path in [i for i in list(args.image_folder_path.iterdir()) if not i.name.startswith(".") and i.is_file()]:
+            print(image_path)
+            if op.getsize(image_path)>COMPRESS_THRESHOLD:
+                img = Image.open(str(image_path))
+                if(img.size[0]>img.size[1] and img.size[0]>1920):
+                    img=img.resize((1920,int(1920*img.size[1]/img.size[0])),Image.ANTIALIAS)
+                elif(img.size[1]>img.size[0] and img.size[1]>1080):
+                    img=img.resize((int(1080*img.size[0]/img.size[1]),1080),Image.ANTIALIAS)
+                img.convert('RGB').save(str(image_folder_new_path/(image_path.stem+".jpg")), optimize=True,quality=85)
+            else:
+                copyfile(image_path, str(image_folder_new_path/image_path.name))
+    args.image_folder_path = image_folder_new_path
 
 # Push your new change to github remote end
 def git_ops():
@@ -118,5 +121,12 @@ if __name__ == "__main__":
         raise FileNotFoundError("Please input the file's path to start!")
     else:
         args.input = Path(args.input)
-        image_folder_path = args.input.parent/(args.input.stem)
+        args.image_folder_path = str(args.input.parent)#/(args.input.stem)
+        if op.exists(op.join(args.image_folder_path, args.input.stem)):
+            args.image_folder_path = op.join(args.image_folder_path, args.input.stem)
+            args.stem_folder=True
+        else:
+            args.stem_folder=False
+                     
+        print(args.image_folder_path)
         process_for_zhihu()
