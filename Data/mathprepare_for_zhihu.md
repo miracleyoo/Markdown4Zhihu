@@ -252,7 +252,3 @@ $ <img src="https://www.zhihu.com/equation?tex=A_{m×n}" alt="A_{m×n}" class="e
 在抽取随机样本后，可用样本数据计算相应的“样本矩”，作为总体矩的估计值
 
 即用样本的平均值代替总体矩表达式的期望算子（如，用样本均值估计总体均值或期望）
-
-本地图片测试：
-
-![test](https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/mathprepare/test_kokomi.jpg)
