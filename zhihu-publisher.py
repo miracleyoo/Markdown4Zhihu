@@ -53,10 +53,13 @@ def rename_image_ref(m, original=True):
     # global image_folder_path
     ori_path = m.group(2) if original else m.group(1)
     try:
-        full_img_path = op.join(args.image_folder_path, ori_path)
-        img_stem = Path(full_img_path).stem
-        if not op.exists(full_img_path):
-            return m.group(0)
+        if op.exists(ori_path):
+            full_img_path = ori_path
+        else:
+            full_img_path = op.join(args.image_folder_path, ori_path)
+            img_stem = Path(full_img_path).stem
+            if not op.exists(full_img_path):
+                return m.group(0)
     except OSError:
         return m.group(0)
 
